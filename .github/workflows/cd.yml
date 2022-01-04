@@ -1,0 +1,27 @@
+name: Promote Dev -> Prod
+## description: Promote the Docker Image built from Dockerfile to Production, and deploy to prod
+## owner: DL_Airport_Agent_NextGen_Devs@aa.com
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  cd: 
+    uses: AAInternal/aagent-workflow-actions/.github/workflows/maven-cd.yml@main
+    secrets:
+      ARTIFACTORY_CRED_USR: ${{ secrets.ARTIFACTORY_CRED_USR }}
+      ARTIFACTORY_CRED_KEY: ${{ secrets.ARTIFACTORY_CRED_KEY }}
+      AAINTERNAL_READONLY_PAT: ${{ secrets.AAINTERNAL_READONLY_PAT }}
+      APT_AG_NEXT_APP_ID: ${{ secrets.APT_AG_NEXT_APP_ID }}
+      APT_AG_NEXT_APP_SECRET: ${{ secrets.APT_AG_NEXT_APP_SECRET }}
+      TOWER_URL: ${{ secrets.TOWER_URL }}
+      TOWER_TOKEN_URL: ${{ secrets.TOWER_TOKEN_URL }}
+      TOWER_USR: ${{ secrets.TOWER_USR }}
+      TOWER_PWD: ${{ secrets.TOWER_PWD }}
+      CHERWELL_USR: ${{ secrets.CHERWELL_USR }}
+      CHERWELL_PWD: ${{ secrets.CHERWELL_PWD }}
+      CHERWELL_CID: ${{ secrets.CHERWELL_CID }}
+    with: 
+      TOWER_CALL_ENABLE: true

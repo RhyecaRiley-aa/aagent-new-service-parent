@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: 'aagent-new-service-parent-api'
+  description: 'aagent-new-service-parent-api'
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: 'tempOwnerValue'
+  subscribe: 'tempSubscribeValue'
+  averageResponseTime: 100ms
+  maxResponseTime: 200ms
+  definition:
+    $text: ./api.json

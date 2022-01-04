@@ -1,0 +1,22 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'aagent-new-service-parent'
+  description: 'asdjnasjnd'
+  annotations:
+    github.com/project-slug: 'AAInternal/aagent-new-service-parent'
+    argocd/app-name: 'aagent-new-service-parent-dev'
+    backstage.io/kubernetes-label-selector: 'backstage.io/kubernetes-id=aagent-new-service-parent'
+  tags:
+    - java
+    - spring-api
+    - docker
+    - kotlin
+    - airportagent
+    - nextgen
+spec:
+  type: service
+  lifecycle: experimental
+  owner: 'tempValueOwner'
+  providesApis:
+    - 'aagent-new-service-parent-api'

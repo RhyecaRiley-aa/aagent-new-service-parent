@@ -1,0 +1,22 @@
+name: CI per PR Build
+## description: Build with maven and Publish java artifact (jar/war), and deploy to sandbox
+## owner: DL_Airport_Agent_NextGen_Devs@aa.com
+
+on:
+ pull_request: 
+    types: [opened, synchronize, closed]
+
+jobs:
+  ci:
+    uses: AAInternal/aagent-workflow-actions/.github/workflows/maven-ci-per-pr.yml@main
+    secrets:
+      ARTIFACTORY_CRED_USR: ${{ secrets.ARTIFACTORY_CRED_USR }}
+      ARTIFACTORY_CRED_KEY: ${{ secrets.ARTIFACTORY_CRED_KEY }}
+      ARTIFACTORY_CRED_PAT: ${{ secrets.ARTIFACTORY_CRED_PAT }}
+      AAINTERNAL_READONLY_PAT: ${{ secrets.AAINTERNAL_READONLY_PAT }}
+      SONARSCAN_EVENT_OBSERVE_ACCESS: ${{ secrets.SONARSCAN_EVENT_OBSERVE_ACCESS }}
+      SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+      APT_AG_NEXT_APP_ID: ${{ secrets.APT_AG_NEXT_APP_ID }}
+      APT_AG_NEXT_APP_SECRET: ${{ secrets.APT_AG_NEXT_APP_SECRET }}
+    with:
+      SONAR_ENABLE: true

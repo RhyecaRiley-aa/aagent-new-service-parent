@@ -1,0 +1,116 @@
+springdoc:
+  api-docs:
+    path: /openapi.json
+  swagger-ui:
+    path: /docs
+  show-actuator: true
+  writer-with-default-pretty-printer: true
+
+server:
+  port: 8080
+
+management:
+  health:
+    readinessState:
+      enabled: true
+    livenessState:
+      enabled: true
+  endpoint:
+    info:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+      show-details: always
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info
+    jmx:
+      exposure:
+        include: health, info
+
+azure:
+  keyvault:
+    enabled: true
+    uri: ${AZURE_KEYVAULT_URL}
+    client-id: ${AZURE_KEYVAULT_CLIENT_ID}
+    client-key: ${AZURE_KEYVAULT_SECRET}
+    tenant-id: ${AZURE_TENANT_ID}
+
+logging:
+  level:
+    root: WARN
+    org:
+      springframework:
+        web: DEBUG
+    hibernate: ERROR
+
+---
+spring:
+  config:
+    activate:
+      on-profile: enable_health
+
+management:
+  security:
+    enabled: false
+
+  health:
+    readinessState:
+      enabled: true
+    livenessState:
+      enabled: true
+  endpoint:
+    info:
+      enabled: true
+      show-details: always
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "health,info"
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: liveness-port
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: liveness-port
+
+---
+spring:
+  config:
+    activate:
+      on-profile: enable_metrics
+
+management:
+  security:
+    enabled: false
+
+  metrics:
+    export:
+      statsd:
+        enabled: true
+        step: 2m
+        flavor: datadog
+    jmx:
+      domain: "metrics"
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+        exclude: "shutdown"
+    jmx:
+      exposure:
+        include: "*"
