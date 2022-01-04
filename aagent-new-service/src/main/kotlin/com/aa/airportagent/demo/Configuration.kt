@@ -22,24 +22,6 @@ class Configuration {
         return RestTemplate()
     }
 }
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@ConditionalOnProperty("app.security.enabled", havingValue = "true")
-class WebSecurityConfig: WebSecurityConfigurerAdapter() {
-
-    override fun configure(http: HttpSecurity?) {
-        http?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            ?.and()
-            ?.authorizeRequests()
-            ?.antMatchers("/secure/**")?.authenticated()
-            ?.antMatchers("/**")?.permitAll()
-            ?.anyRequest()?.authenticated()
-            ?.and()
-            ?.oauth2ResourceServer()?.jwt()?.jwtAuthenticationConverter(AADJwtBearerTokenAuthenticationConverter())
-        http?.exceptionHandling()?.authenticationEntryPoint(ProblemDetailsAuthenticationEntryPoint())
-            ?.accessDeniedHandler(GlobalAccessDeniedHandler())
-    }
-}
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
